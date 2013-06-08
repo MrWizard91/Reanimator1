@@ -3,6 +3,7 @@ Install Instructions for neo4j on Ubuntu 12.04
 
 .. [#] extract the neo4j tarball to /opt/neo4j extract the neo4j tarball to /opt/neo4j
 .. [#] set the ulimit
+
        ulimit is a shell built-in, not an external command. It needs to be built in because it acts on the shell process itself, like cd: the limits, like the current directory, are a property of that particular process.
        sudo bash -c 'ulimit -n 4096' would work, but it would change the limit for the bash process invoked by sudo only, which would not help you.
        There are two values for each limit: the hard limit and the soft limit. Only root can raise the hard limit; anyone can lower the hard limit, and the soft limit can be modified in either direction with the only constraint that it cannot be higher than the hard limit. The soft limit is the actual value that matters.
