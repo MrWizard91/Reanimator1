@@ -6,21 +6,37 @@ Install Instructions for neo4j on Ubuntu 12.04
 
        ulimit is a shell built-in, not an external command. It needs to be built in because it acts on the shell process itself, like cd: the limits, like the current directory, are a property of that particular process.
 
-       sudo bash -c 'ulimit -n 4096' would work, but it would change the limit for the bash process invoked by sudo only, which would not help you.
 
-       There are two values for each limit: the hard limit and the soft limit. Only root can raise the hard limit; anyone can lower the hard limit, and the soft limit can be modified in either direction with the only constraint that it cannot be higher than the hard limit. The soft limit is the actual value that matters.
 
-       Therefore you need to arrange that all your processes have a hard limit for open files of at least 4096. You can keep the soft limit at 1024. Before launching that process that requires a lot of files, raise the soft limit. In /etc/security/limits.conf, add the lines
+        You need to be able to open more files.
 
-       paislee hard nofile 4096
+        Edit */etc/security/limits.conf* and add these two lines:
 
-       paislee soft nofile 1024
+        | root soft nofile 40000
+        | root hard nofile 40000
 
-       where paislee is the name of the user you want to run your process as. In the shell that launches the process for which you want a higher limit, run
+        Edit */etc/pam.d/su* and uncomment or add the following line:
 
-       ulimit -Sn unlimited
+        | session required pam_limits.so
 
-       to raise the soft limit to the hard limit.
+        Finally check that limit was changed. You might need to reboot.
+
+        | ulimit -n
+
+        Returns 40000
+
+        Next in order to be able to use the webadmin on Ubuntu. You need to change one of the properties files inside neo4j. It works without this change on a Mac, I know.
+
+        Edit the neo4j-server.properties file:
+
+        | cd [neo4j installation]/conf/
+        | vim neo4-server.properties
+
+        Change this line
+
+        | org.neo4j.server.webserver.address=0.0.0.0
+
+        The default is set to only listen for connections from localhost (that's why it works on a Mac). This way you can access the webadmin from anywhere. This can be a security problem though.
 
 .. [#] install the official Java Runtime with the oab-java.sh install script
 .. [#] 
