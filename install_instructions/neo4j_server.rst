@@ -10,12 +10,12 @@ Install Instructions for neo4j on Ubuntu 12.04
 
         You need to be able to open more files.
 
-        Edit */etc/security/limits.conf* and add these two lines:
+        Edit **/etc/security/limits.conf** and add these two lines:
 
         | root soft nofile 40000
         | root hard nofile 40000
 
-        Edit */etc/pam.d/su* and uncomment or add the following line:
+        Edit **/etc/pam.d/su** and uncomment or add the following line:
 
         | session required pam_limits.so
 
@@ -24,13 +24,15 @@ Install Instructions for neo4j on Ubuntu 12.04
         | ulimit -n
 
         Returns 40000
+        
+        OPTIONAL
 
-        Next in order to be able to use the webadmin on Ubuntu. You need to change one of the properties files inside neo4j. It works without this change on a Mac, I know.
+        In order to be able to use the webadmin on Ubuntu. You need to change one of the properties files inside neo4j. It works without this change on a Mac, I know.
 
         Edit the neo4j-server.properties file:
 
         | cd [neo4j installation]/conf/
-        | vim neo4-server.properties
+        | vim neo4j-server.properties
 
         Change this line
 
@@ -38,5 +40,5 @@ Install Instructions for neo4j on Ubuntu 12.04
 
         The default is set to only listen for connections from localhost (that's why it works on a Mac). This way you can access the webadmin from anywhere. This can be a security problem though.
 
-.. [#] install the official Java Runtime with the oab-java.sh install script
+.. [#] install the official Java Runtime, currently 7. http://www.duinsoft.nl/packages.php?t=en
 .. [#] 
